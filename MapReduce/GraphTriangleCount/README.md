@@ -1,12 +1,56 @@
-<center><h1>MapReduce实验四：图的三角形计数</h1></center>
+<center><h1>基于mapreduce实现图的三角形计数</h1></center>
 
-<center>组号：2018st32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2018/11/22</center>
+## 一、实验要求
+
+### 1.1 实验背景
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;图的三角形计数问题是一个基本的图计算问题,是很多复杂网络分析(比如社交网络分析)的基础。目前图的三角形计数问题已经成为了 Spark 系统中 GraphX 图计算库所提供的一个算法级 API。本次实验任务就是要在 Hadoop 系统上实现图的三角形计数任务。
+
+### 1.2 实验任务
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个社交网络可以看做是一张图(离散数学中的图)。社交网络中的人对应于图的顶点;社交网络中的人际关系对应于图中的边。在本次实验任务中,我们只考虑一种关系——用户之间的关注关系。假设“王五”在 Twitter/微博中关注了“李四”,则在社交网络图中,有一条对应的从“王五”指向“李四”的有向边。图 1 中展示了一个简单的社交网络图,人之间的关注关系通过图中的有向边标识了出来。本次的实验任务就是在给定的社交网络图中,统计图中所有三角形的数量。在统计前,需要先进行有向边到无向边的转换,依据如下逻辑转换:
+
+<center>IF ( A→B) OR (B→A) THEN A-B</center>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“A→B”表示从顶点 A 到顶点 B 有一条有向边。A-B 表示顶点 A 和顶点 B 之间有一条无向边。一个示例见图 1,图 1 右侧的图就是左侧的图去除边方向后对应的无向图。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**请在无向图上统计三角形的个数**。在图 1 的例子中,一共有 3 个三角形。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本次实验将提供一个 [Twitter 局部关系图][1]作为输入数据(给出的图是有向图),请统计该图对应的无向图中的三角形个数。
+
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/MR_triangle_1.png)
+
+图 1 一个简单的社交网络示例。左侧的是一个社交网络图,右侧的图是将左侧图中的有向边转换为无向边后的无向图。
+
+### 1.3 输入说明
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;输入数据仅一个文件。该文件由若干行组成,每一行由两个以空格分隔的整数组成:
+
+<center>A B</center>
+
+A,B 分别是两个顶点的 ID。这一行记录表示图中具有一条由 A 到 B 的有向边。整个图的结构由该文件唯一确定。
+下面的框中是文件部分内容的示例:
+
+```
+87982906 17975898
+17809581 35664799
+524620711 270231980
+247583674 230498574
+348281617 255810948
+159294262 230766095
+14927205 5380672
+```
+
+### 1.4 扩展
+
+* 扩展一：挑战更大的数据集!使用 [Google+的社交关系网][1]数据集作为输入数据集。
+
+* 扩展二：考虑将逻辑转换由or改为and的三角形个数是多少，改变后的逻辑转换如下：
+
+<center>IF ( A→B) AND (B→A) THEN A-B</center>
 
 
 
-## 一、实验设计与实现
+## 二、实验设计与实现
 
-### 1.1 算法设计
+### 2.1 算法设计
 
 * step1：统计图中每一个点的度，不关心是入度还是出度，然后对统计到的所有点的度进行排序
 * step2：将图中每一条单向边转换成双向边，对于图中a->b and b->a的两条边，分别转换后需要去重，在转换后的图中筛选出小度指向大度的边来建立邻接表，然后对每个点的邻接点按从小到大进行排序
@@ -14,7 +58,7 @@
 
 
 
-### 1.2 程序设计
+### 2.2 程序设计
 
 * 根据算法步骤将程序设计成4个job来实现：
   1. job:OutDegreeStat用于对每个点的度进行统计，在类OutDegreeStat中实现
@@ -24,7 +68,7 @@
 
 
 
-### 1.3 程序实现
+### 2.3 程序实现
 
 * job:OutDegreeStat的实现：
 
@@ -270,7 +314,7 @@
 
 
 
-### 1.4 扩展任务1的设计与实现
+### 2.4 扩展2的设计与实现
 
 * 对于a->b and b->a then a-b的条件，只需改变job:EdgeConvert的实现即可，新建一个job:UndirectionalEdgeConvert:
 
@@ -332,97 +376,12 @@
 
 
 
-## 二、程序运行方式及结果
-
-### 2.1 jar包运行方式
-
-==每次运行jar包之前先执行hadoop fs -rmr temp/*删除生成的中间文件==
-
-* condition: if a->b or b->a then a-b
-
-  * data: twitter_graph_v2.txt
-
-    ```shell
-    hadoop jar TriangleCount.jar main.java.TriangleCount.TriangleCountDriver /data/graphTriangleCount/twitter_graph_v2.txt toutput
-    ```
-
-  * data: gplus_combined.unique.txt
-
-    ```shell
-    hadoop jar TriangleCount.jar main.java.TriangleCount.TriangleCountDriver /data/graphTriangleCount/gplus_combined.unique.txt goutput
-    ```
-
-* condition: if a->b and b->a then a-b
-
-  * data: twitter_graph_v2.txt
-
-    ```shell
-    hadoop jar TriangleCount.jar main.java.TriangleCount.UndirectionalTriangleCountDriver /data/graphTriangleCount/twitter_graph_v2.txt undir-toutput
-    ```
-
-  * data: gplus_combined.unique.txt
-
-    ```shell
-    hadoop jar TriangleCount.jar main.java.TriangleCount.UndirectionalTriangleCountDriver /data/graphTriangleCount/gplus_combined.unique.txt undir-goutput
-    ```
-
-
-
-### 2.2 运行结果及时耗
-
-=="or"表示if a->b or b->a then a-b的情况，"and"表示if a->b and b->a then a-b的情况==
-
-| 数据集       | 三角形个数 | Driver程序在集群上的运行时间(秒) |
-| ------------ | ---------- | -------------------------------- |
-| Twitter(or)  | 13082506   | 127s                             |
-| Google+(or)  | 1073677742 | 308s                             |
-| Twitter(and) | 1818304    | 157s                             |
-| Goolge+(and) | 27018510   | 216s                             |
-
-
-
-### 2.3  输出结果信息
-
-* condition: if a->b or b->a then a-b
-
-  * data: twitter_graph_v2.txt
-
-    ```s
-    输出结果路径：/usr/2018st32/t10-output/part-r-00000
-    ```
-
-  * gplus_combined.unique.txt
-
-    ```
-    输出结果路径：/usr/2018st32/g10-output/part-r-00000
-    ```
-
-* condition: if a->b and b->a then a-b
-
-  * data: twitter_graph_v2.txt
-
-    ```
-    输出结果路径：/usr/2018st32/t10-undir-output/part-r-00000
-    ```
-
-  * gplus_combined.unique.txt
-
-    ```
-    输出结果路径：/usr/2018st32/g10-undir-output/part-r-00000
-    ```
-
-* 下面是上面四个结果路径的截图：
-
-![](/home/brooksj/图片/2018-11-23 14-23-34 的屏幕截图.png)
-
-
-
 ## 三、性能分析与优化
 
 ### 3.1 性能分析
 
-* 该算法的性能瓶颈在遍历每一条边然后边两个端节点对应邻接表的交集，然后对每个顶点出发的邻接表进行排序也比较耗时，算法整体的时间复杂度是O(E^1.5^)，E为边的数目
-* 目前这个1.0版本的实现鲁棒性比较好，节点编号用Text存储，所以无论节点编号多大都可以存储以及比较，输入的图可以允许重复边的出现，不会影响结果的正确性。但由于mapreduce涉及大量的排序过程，用Text存储节点也就意味着使用字符串排序，字符串之间的比较当然比整型比较开销大，从而会影响程序的整体性能。除此之外，hadoop需要对数据进行序列化之后才能在网络上传输，数据以文本文件输入导致大量的数据序列化转换也会降低程序性能。
+- 该算法的性能瓶颈在遍历每一条边然后边两个端节点对应邻接表的交集，然后对每个顶点出发的邻接表进行排序也比较耗时，算法整体的时间复杂度是O(E^1.5^)，E为边的数目
+- 目前这个1.0版本的实现鲁棒性比较好，节点编号用Text存储，所以无论节点编号多大都可以存储以及比较，输入的图可以允许重复边的出现，不会影响结果的正确性。但由于mapreduce涉及大量的排序过程，用Text存储节点也就意味着使用字符串排序，字符串之间的比较当然比整型比较开销大，从而会影响程序的整体性能。除此之外，hadoop需要对数据进行序列化之后才能在网络上传输，数据以文本文件输入导致大量的数据序列化转换也会降低程序性能。
 
 
 
@@ -430,88 +389,37 @@
 
 2.0版本，在1.0的版本上进行了数据储存和表示方面的优化，相同实验环境(6个Reducer，每个Reducer2G物理内存，Reducer中的java heapsize -Xmx2048m)跑Goolge+数据能快50s左右，具体优化细节如下：
 
-* 将离散化稀疏的节点转换成顺序化的，这样就可以用IntWritabel表示节点(前提是节点数未超过INT_MAX)而不用Text来表示节点编号，这样就可以避免字符串排序，减少map和reduce阶段的排序开销
-* 将原始Text输入文件转换成Sequence，因为hadoop传输在网络上的数据是序列化的，这样可以避免数据的序列化转换开销。但是由于数据是串行转换的，影响整体性能，但是可以在第一次运行过后存起来，以后运行直接加载sequence的数据文件即可。这一步是和第一步顺序化节点一起完成的，转换后的sequence文件存储的是顺序化的节点表示的边。
-* 在a->b and b->a then a-b的条件下，在获取小度指向大度的边集任务中，mapper需要将一条边的点对合并为key以在reducer中判断是否是双向边，看似只能用Text来存储了，实则这里有一个trick，在对节点顺序化之后的节点数通常不会超过INT_MAX，因此可以使用考虑将两个int型表示的节点转换成long,key存储在高32位，value存储在低32位，通过简单的位操作即可实现，这样mapper输出的key就是long而非Text，从而避免了字符串的比较排序，由于mapreduce涉及大量排序过程，因此在涉及程序的时候尽量用一些trick避免用Text表示key.
+- 将离散化稀疏的节点转换成顺序化的，这样就可以用IntWritabel表示节点(前提是节点数未超过INT_MAX)而不用Text来表示节点编号，这样就可以避免字符串排序，减少map和reduce阶段的排序开销
+- 将原始Text输入文件转换成Sequence，因为hadoop传输在网络上的数据是序列化的，这样可以避免数据的序列化转换开销。但是由于数据是串行转换的，影响整体性能，但是可以在第一次运行过后存起来，以后运行直接加载sequence的数据文件即可。这一步是和第一步顺序化节点一起完成的，转换后的sequence文件存储的是顺序化的节点表示的边。
+- 在a->b and b->a then a-b的条件下，在获取小度指向大度的边集任务中，mapper需要将一条边的点对合并为key以在reducer中判断是否是双向边，看似只能用Text来存储了，实则这里有一个trick，在对节点顺序化之后的节点数通常不会超过INT_MAX，因此可以使用考虑将两个int型表示的节点转换成long,key存储在高32位，value存储在低32位，通过简单的位操作即可实现，这样mapper输出的key就是long而非Text，从而避免了字符串的比较排序，由于mapreduce涉及大量排序过程，因此在涉及程序的时候尽量用一些trick避免用Text表示key.
 
 
 
-## 四、WebUI执行报告
+## 三、程序运行结果及时耗
 
-* Twitter(or)
+> 实验环境：CPU型号Intel(R) Xeon(R) CPU E5-2630 v2 @ 2.60GHz，双物理CPU，单CPU6核12线程，所以一共24个虚拟核，程序设置6个reducer，每个reducer配置2GB物理内存，reducer中的java heapsize配置-Xmx2048m
 
-  * job:OutDegreeStat
+=="or"表示if a->b or b->a then a-b的情况，"and"表示if a->b and b->a then a-b的情况==
 
-    ![](/home/brooksj/图片/2018-11-23 14-28-48 的屏幕截图.png)
+* 1.0版本的测试结果：
 
-  * job:SortedOutDegree
+| 数据集       | 三角形个数 | Driver程序在集群上的运行时间(秒) |
+| ------------ | ---------- | -------------------------------- |
+| Twitter(or)  | 13082506   | 127s                             |
+| Google+(or)  | 1073677742 | 278s                             |
+| Twitter(and) | 1818304    | 125s                             |
+| Goolge+(and) | 27018510   | 156s                             |
 
-    ![](/home/brooksj/图片/2018-11-23 14-30-08 的屏幕截图.png)
+* 2.0版本的测试结果(不包含输入文件转换的时间)：
 
-  * job:EdgeConvert
+| 数据集       | 三角形个数 | Driver程序在集群上的运行时间(秒) |
+| ------------ | ---------- | -------------------------------- |
+| Twitter(or)  | 13082506   | 115s                             |
+| Google+(or)  | 1073677742 | 230s                             |
+| Twitter(and) | 1818304    | 118s                             |
+| Goolge+(and) | 27018510   | 181s                             |
 
-    ![](/home/brooksj/图片/2018-11-23 14-31-19 的屏幕截图.png)
+**评估：**2.0版本相对1.0版本在节点数据类型上作了优化，当数据量很大的时候，or情况的性能有显著的提升，Google+数据比1.0版本快了差不多50s左右，但是and情况下2.0版本跑Google+数据性能却下降了，个人猜测可能是job:UnidirectionalEdgeConvert中的Mapper，Reducer，Partitioner，比较函数中涉及大量的位操作或者int与long之间的类型转换，这个开销比1.0版本的对字符串排序开销更大。目前没有很好的想法来避免频繁的位操作与类型转换，有idea的朋友可以给我留言~
 
-  * job:GraphTriangleCount
-
-    ![](/home/brooksj/图片/2018-11-23 14-33-22 的屏幕截图.png)
-
-
-
-* Google+(or)
-
-  * job:OutDegreeStat
-
-    ![](/home/brooksj/图片/2018-11-23 14-35-46 的屏幕截图.png)
-
-  * job:SortedOutDegree
-
-    ![](/home/brooksj/图片/2018-11-23 14-36-31 的屏幕截图.png)
-
-  * job:EdgeConvert
-
-    ![](/home/brooksj/图片/2018-11-23 14-37-29 的屏幕截图.png)
-
-  * job:GraphTriangleCount
-
-    ![](/home/brooksj/图片/2018-11-23 14-38-02 的屏幕截图.png)
-
-
-
-* Twitter(and)
-
-  * job:OutDegreeStat
-
-    ![](/home/brooksj/图片/2018-11-23 14-44-32 的屏幕截图.png)
-
-  * job:SortedOutDegree
-
-    ![](/home/brooksj/图片/2018-11-23 14-51-27 的屏幕截图.png)
-
-  * job:UndirectionalEdgeConvert
-
-    ![](/home/brooksj/图片/2018-11-23 14-44-47 的屏幕截图.png)
-
-  * job:GraphTriangleCount
-
-    ![](/home/brooksj/图片/2018-11-23 14-45-23 的屏幕截图.png)
-
-
-
-* Google+(and)
-
-  * job:OutDegreeStat
-
-    ![](/home/brooksj/图片/2018-11-23 14-45-35 的屏幕截图.png)
-
-  * job:SortedOutDegree
-
-    ![](/home/brooksj/图片/2018-11-23 14-45-53 的屏幕截图.png)
-
-  * job:UndirectionalEdgeConvert
-
-    ![](/home/brooksj/图片/2018-11-23 14-46-04 的屏幕截图.png)
-
-  * job:GraphTriangleCount
-
-    ![](/home/brooksj/图片/2018-11-23 14-46-21 的屏幕截图.png)
+[1]: J. McAuley and J. Leskovec. Learning to Discover Social Circles in Ego Networks. NIPS,
+2012.http://snap.stanford.edu/data/
