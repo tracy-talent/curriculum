@@ -1,0 +1,320 @@
+\documentclass[a4paper,UTF8]{article}
+\usepackage{ctex}  
+\usepackage[margin=1.22in]{geometry}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage{epsfig}
+\usepackage{color}
+\usepackage{mdframed}
+\usepackage{lipsum}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{diagbox}
+\newmdtheoremenv{thm-box}{myThm}
+\newmdtheoremenv{prop-box}{Proposition}
+\newmdtheoremenv{def-box}{定义}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+	numbers=left, 
+	numberstyle= \tiny, 
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``, % 英文分号中可写入中文
+	xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+	framexleftmargin=2em
+} 
+
+\usepackage{booktabs}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.5in}
+\setlength{\topmargin}{-0.5in}
+% \setlength{\textheight}{9.5in}
+%%%%%%%%%%%%%%%%%%此处用于设置页眉页脚%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}                                
+\usepackage{lastpage}                                           
+\usepackage{layout}                                             
+\footskip = 10pt 
+\pagestyle{fancy}                    % 设置页眉                 
+\lhead{2018年秋季}                    
+\chead{高级机器学习}                                                
+% \rhead{第\thepage/\pageref{LastPage}页} 
+\rhead{作业一}                                                                                               
+\cfoot{\thepage}                                                
+\renewcommand{\headrulewidth}{1pt}  			%页眉线宽，设为0可以去页眉线
+\setlength{\skip\footins}{0.5cm}    			%脚注与正文的距离           
+\renewcommand{\footrulewidth}{0pt}  			%页脚线宽，设为0可以去页脚线
+
+\makeatletter 									%设置双线页眉                                        
+\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+\hrule\@height 1.0pt \@width\headwidth\vskip1pt	%上面线为1pt粗  
+\hrule\@height 0.5pt\@width\headwidth  			%下面0.5pt粗            
+\vskip-2\headrulewidth\vskip-1pt}      			%两条线的距离1pt        
+ \vspace{6mm}}     								%双线与下面正文之间的垂直间距              
+\makeatother  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\numberwithin{equation}{section}
+%\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{definition}{Definition}
+\newtheorem*{solution}{Solution}
+\newtheorem*{prove}{Proof}
+\newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+
+% 算法
+\usepackage{multirow}  
+\usepackage{algorithm}  
+\usepackage{algorithmicx}  
+\usepackage{algpseudocode}  
+\usepackage{amsmath}  
+  
+\floatname{algorithm}{算法}  
+\renewcommand{\algorithmicrequire}{\textbf{输入:}}  
+\renewcommand{\algorithmicensure}{\textbf{输出:}}  
+% 算法
+
+%--
+
+%--
+\begin{document}
+\title{高级机器学习\\
+作业一}
+\maketitle
+
+\section{[25pts] Multi-Class Logistic Regression}
+教材的章节3.3介绍了对数几率回归解决二分类问题的具体做法。假定现在的任务不再是二分类问题，而是多分类问题，其中$y\in\{1,2\dots,K\}$。请将对数几率回归算法拓展到该多分类问题。
+
+\begin{enumerate}[(1)]
+	\item \textbf{[15pts]} 给出该对率回归模型的“对数似然”(log-likelihood);
+	\item \textbf{[5pts]} 计算出该“对数似然”的梯度。
+\end{enumerate}
+
+提示1：假设该多分类问题满足如下$K-1$个对数几率，
+\begin{eqnarray*}
+	\ln\frac{p(y=1|\mathbf{x})}{p(y=K|\mathbf{x})}&=&\mathbf{w}_1^\mathrm{T}\mathbf{x}+b_1\\
+	\ln\frac{p(y=2|\mathbf{x})}{p(y=K|\mathbf{x})}&=&\mathbf{w}_2^\mathrm{T}\mathbf{x}+b_2\\
+	&\dots&\\
+	\ln\frac{p(y={K-1}|\mathbf{x})}{p(y=K|\mathbf{x})}&=&\mathbf{w}_{K-1}^\mathrm{T}\mathbf{x}+b_{K-1}
+	\frac{ \partial l(\beta)}{\partial \beta_i} = - \sum^m_{j=0} (\hat{x}(\P(y_i = K)-1) -p_i(\hat{x};\beta))
+\end{eqnarray*}
+
+提示2：定义指示函数$\mathbb{I}(\cdot)$，
+$$\mathbb{I}(y=j)=
+\begin{cases}
+1& \text{若$y$等于$j$}\\
+0& \text{若$y$不等于$j$}
+\end{cases}$$
+
+\begin{solution}
+此处用于写解答(中英文均可)\\
+(1)解：\\
+由提示1中多项式可推出p(y = i|x):\\
+因为
+\begin{eqnarray*}
+	\ln\frac{p(y=i|\mathbf{x})}{p(y=K|\mathbf{x})}=\mathbf{w}_i^\mathrm{T}\mathbf{x}+b_i(i \neq K)
+\end{eqnarray*}
+所以
+\begin{eqnarray*}
+	p(y=i|\mathbf{x})=p(y=K|\mathbf{x})e^{\mathbf{w}_i^T\mathbf{x}+b_i}(i \neq K)\qquad\qquad(1.1)
+\end{eqnarray*}
+又因为
+\begin{eqnarray*}
+	\sum^K_{i=1}p(y=i|\mathbf{x})=\sum^{K-1}_{i=1}p(y=K|\mathbf{x})e^{\mathbf{w}_i^T\mathbf{x}+b_i}+p(y=K|\mathbf{x})=1
+\end{eqnarray*}
+由上式可得
+\begin{eqnarray*}
+	p(y=K|\mathbf{x})=\frac{1}{1+\sum^{K-1}_{i=1}e^{\mathbf{w}^T_i\mathbf{x}+b_i}}\qquad\qquad(1.2)
+\end{eqnarray*}
+将式(1.2)代入(1.1)可得
+\begin{eqnarray*}
+	p(y=i|\mathbf{x})=\frac{e^{\mathbf{w}_i^T\mathbf{x}+b_i}}{1+\sum^{K-1}_{i=1}e^{\mathbf{w}^T_i\mathbf{x}+b_i}}
+\end{eqnarray*}
+推导得到$p(y=i|x)$，然后对样本数据$\{\{x_i,y_i\}\}^m_1$构造似然函数
+\begin{eqnarray*}
+	l(\mathbf{w},\mathbf{b})=\sum^m_{i=1}\ln p(y=y_i|\mathbf{x}_i;\mathbf{w},b)\qquad\qquad(1.3)
+\end{eqnarray*}
+令$\mathbf{\beta}=(\mathbf{w};\mathbf{b}),\hat{\mathbf{x}}=(\mathbf{x};1),p_i(\hat{\mathbf{x}}|\beta)=p(y=i|\hat{\mathbf{x}};\mathbf{\beta}),p(y=y_i|\mathbf{x}_i;\mathbf{w},b)$可重写为
+\begin{eqnarray*}
+	p(y_i|\mathbf{x}_i;\beta)&=&\sum^{K-1}_{j=1}\mathbb{I}(y_i=j)p_i(\hat{\mathbf{x}}_i;\beta)+\mathbb{I}(y_i=K)p_K(\hat{\mathbf{x}_i};\beta)\\
+	&=&\frac{\sum^{K-1}_{j=1}\mathbb{I}(y_i=j)e^{\beta^T_j\hat{\mathbf{x}}_i}+\mathbb{I}(y_i=K)}{1+\sum^{K-1}_{j=1}e^{\beta^T_j\hat{\mathbf{x}}_i}}
+\end{eqnarray*}
+所以
+\begin{eqnarray*}
+	\ln p(y_i|x_i;\beta)=\ln(\sum^{K-1}_{j=1}(\mathbb{I}(y_i=j)e^{\beta^T_j\hat{\mathbf{x}}_i})+\mathbb{I}(y_i=K))-\ln(1+\sum^{K-1}_{j=1}e^{\beta^T_j\hat{\mathbf{x}}_i})
+\end{eqnarray*}
+又因为$\ln(\sum^{K-1}_{j=1}(\mathbb{I}(y_i=j)e^{\beta^T_j\hat{\mathbf{x}}_i})+\mathbb{I}(y_i=K))$可化简为
+\begin{equation*}
+    \begin{cases}
+        \beta^T_{y_i}\hat{\mathbf{x}}_i & y_i \neq K\\
+        0 & y_i = K
+    \end{cases}
+\end{equation*}
+因此原似然函数(1.3)可重写为：
+\begin{equation*}
+    \begin{cases}
+        l(\beta) = \beta^T_{y_i}\hat{\mathbf{x}}_i - \ln(1+\sum^{K-1}_{j=1}e^{\beta^T_j\hat{\mathbf{x}}_i}) & y_i \neq K\\
+        l(\beta) = - \ln(1+\sum^{K-1}_{j=1}e^{\beta^T_j\hat{\mathbf{x}}_i}) & y_i = K
+    \end{cases}
+\end{equation*}
+(2)解：\\
+求偏导得到“对数似然”的梯度：
+\begin{eqnarray*}
+	\frac{\partial l(\beta)}{\partial \beta_t}&=&\sum^m_{i=1}(\mathbb{I}(y_i=t)\hat{\mathbf{x}}_i-\frac{\hat{\mathbf{x}}_i e^{\beta^T_{t}\hat{\mathbf{x}}_i}}{1+\sum^{K-1}_{j=1}\beta^T_j\hat{\mathbf{x}}_i})\\
+	&=&\sum^m_{i=1}((\mathbb{I}(y_i=t)-p(y_i=t|\hat{\mathbf{x}}_i;\beta))\hat{\mathbf{x}}_i)\quad t \in [1,K-1]
+\end{eqnarray*}
+
+\end{solution}
+\newpage
+
+\section{[15pts] Semi-Supervised Learning}
+我们希望使用半监督学习的方法来对文本文档进行分类。假设我们使用二进制指示符的词袋模型描述各个文档，在这里，我们的词库有$10000$个单词，因此每个文档由长度为$10000$的二进制向量表示。
+
+对于以下提出的分类器，说明其是否可以用于改进学习性能并提供简要说明。
+\begin{enumerate}
+	\item \textbf{[5pts]} 使用EM的朴素贝叶斯；
+	\item \textbf{[5pts]} 使用协同训练的朴素贝叶斯；
+	\item \textbf{[5pts]} 使用基于特征选择的朴素贝叶斯；
+\end{enumerate}
+
+\begin{solution}
+此处用于写解答(中英文均可)\\
+\begin{enumerate}
+    \item 使用EM的朴素贝叶斯可以改进学习性能，因为样本的一些特征可能因为某些因素而不可观测或者在训练数据中没有体现，对于这种隐变量，就可以使用EM算法来对它进行学习，从而提升学习的性能。
+    \item 使用协同训练的朴素贝叶斯可以改进学习性能，从训练数据的两个不同视图去学习数据的特征，能学习到更多的数据相关特征，从而分类也能更精准。
+    \item 使用基于特征选择的朴素贝叶斯可以改进学习性能，特征选择可以从数据中选择出重要的特征，去除“无关特征”与“冗余特征”后可以大大降低算法学习的难度，提升学习的性能。
+\end{enumerate}
+\end{solution}
+\newpage
+
+\section{[60pts] Dimensionality Reduction}
+请实现三种降维方法：PCA，SVD和ISOMAP，并在降维后的空间上用$1$-NN方法分类。
+\begin{enumerate}
+	\item 数据：我们给出了两个数据集，都是二分类的数据。可以从\url{https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html}找到，同时也可以在提交作业的目录文件夹中找名为“two datasets”的压缩文件下载使用。每个数据集都由训练集和测试集组成。
+	\item 格式：再每个数据集中，每一行表示一个带标记的样例，即每行最后一列表示对应样例的标记，其余列表示对应样例的特征。
+\end{enumerate}
+
+具体任务描述如下：
+\begin{enumerate}
+	\item \textbf{[20pts]} 请实现PCA完成降维（方法可在参考书\url{http://www.charuaggarwal.net/Data-Mining.htm} 中 Section 2.4.3.1 中找到）
+	\subitem 首先，仅使用训练数据学习投影矩阵；
+	\subitem 其次，用学得投影矩阵将训练数据与测试数据投影到 $k$-维空间 ($k=10,20,30$)；
+	\subitem 最后，在降维后空间上用$1$-NN预测降维后$k$维数据对应的标记 ($k=10,20,30$)，并汇报准确率。注意，测试数据集中的真实标记仅用来计算准确率。
+	\item \textbf{[20pts]} 请实现SVD完成降维（方法在上述参考书 Section 2.4.3.2 中找到）
+	\subitem 首先，仅使用训练数据学习投影矩阵；
+	\subitem 其次，用学得投影矩阵将训练数据与测试数据投影到 $k$-维空间 ($k=10,20,30$)；
+	\subitem 最后，在降维后空间上用$1$-NN预测降维后$k$维数据对应的标记 ($k=10,20,30$)，并汇报准确率。注意，测试数据集中的真实标记仅用来计算准确率。
+	\item \textbf{[20pts]} 请实现ISOMAP完成降维（方法在参考书 Section 3.2.1.7 中找到）
+	\subitem 首先，使用训练数据与测试数据学习投影矩阵。在这一步中，请用$4$-NN来构建权重图。（请注意此处$4$仅仅是用来举例的，可以使用其他 $k$-NN, $k\geq 4$并给出你选择的k。如果发现构建的权重图不连通，请查找可以解决该问题的方法并汇报你使用的方法）
+	\subitem 其次，用学得投影矩阵将训练数据与测试数据投影到 $k$-维空间 ($k=10,20,30$)。
+	\subitem 最后，在降维后空间上用$1$-NN预测降维后$k$维数据对应的标记 ($k=10,20,30$)，并汇报准确率。注意，测试数据集中的真实标记仅用来计算准确率。
+\end{enumerate}
+
+可以使用已有的工具、库、函数等直接计算特征值和特征向量，执行矩阵的SVD分解，计算graph上两个节点之间的最短路。PCA/SVD/ISOMAP 和 $1$-NN 中的其他步骤必须由自己实现。
+
+报告中需要包含三个方法的伪代码和最终的结果。最终结果请以表格形式呈现，表中包含三种方法在两个数据集中，不同 $k=10,20,30$ 下的准确率。
+
+
+\begin{solution}
+	此处用于写解答(中英文均可)\\
+\newpage
+\noindent
+1.解：中心化，未标准化
+\begin{algorithm}  
+	\caption{PCA}  
+	\begin{algorithmic}[1] %每行显示行号  
+		\Require $traindataMat$训练数据矩阵，$traintagMat$训练数据标签矩阵, $testdataMat$测试数据矩阵, $testtagMat$测试数据标签矩阵, $topK$降维的维度  
+		\Ensure 准确率  
+		\State $import\ numpy\ as\ np$
+		\State $meanVals \gets np.mean(traindataMat,\ axis=0)$
+		\State $centralizedMat \gets (traindataMat\ -\ manVals)$
+		\State $convMat \gets np.conv(centralizedMat, rowvar=0)$
+		\State $eigVals,\ eigVects \gets np.linalg.eig(conMat)$
+		\State $eigValsIdx\_topK \gets argsort(eigVals)[:-(topK+1):-1]$
+		\State $projectionMat \gets eigVects[:,\ eigValsIdx\_topK]$
+		\State $traindataMat\_proj \gets traindataMat\ *\ projectionMat$
+		\State $testdataMat\_proj \gets testdataMat\ *\ projectionMat$
+		\State \Return{$1NN(traindataMat\_proj,\ testdataMat\_proj,\ traintagMat,\ testtagMat)$}
+	\end{algorithmic}  
+\end{algorithm}
+\\\\
+2.解：未中心化，未标准化
+\begin{algorithm}
+	\caption{SVD}
+	\begin{algorithmic}[1]
+		\Require $traindataMat$训练数据矩阵，$traintagMat$训练数据标签矩阵, $testdataMat$测试数据矩阵, $testtagMat$测试数据标签矩阵, $topK$降维的维度
+		\Ensure 准确率
+		\State $import\ numpy\ as\ np$
+		\State $\_,\ S,\ VT \gets np.linalg.svd(traindataMat)$
+		\State $SIdx\_topK \gets argsort(S)[:-(topK+1):-1]$
+		\State $VT\_dimK \gets VT[SIdx\_topK,:]$
+        \State $projectionMat \gets VT\_dimK.T$
+        \State $traindataMat\_proj \gets traindataMat\ *\ projectionMat$
+		\State $testdataMat\_proj \gets testdataMat\ *\ projectionMat$
+		\State \Return{$1NN(traindataMat\_proj,\ testdataMat\_proj,\ traintagMat,\ testtagMat)$}
+	\end{algorithmic}
+\end{algorithm}
+
+\newpage
+\noindent
+3.解：未中心化，未标准化
+\begin{algorithm}
+	\caption{ISOMAP}
+	\begin{algorithmic}[1]
+		\Require $traindataMat$训练数据矩阵，$traintagMat$训练数据标签矩阵, $testdataMat$测试数据矩阵, $testtagMat$测试数据标签矩阵, $topK$降维的维度, $KNN\_K$\ K近邻参数
+		\Ensure 准确率
+		\State $import\ numpy\ as\ np$
+		\State $dataMat \gets np.vstack(traindataMat,\ testdataMat)$
+		\State $dataSize \gets len(dataMat)$
+		\State $Euc\_distanceMat \gets calc\_distance(dataMat)$
+		\State $//$ 建立KNN的图
+		\State $knn\_distanceMat \gets np.ones([dataSize,\ dataSize],\ float32)\ *\ inf$
+		\For{$i = 0 \to dataSize-1$}
+			\State $knnIdx \gets np.argpartition(Euc\_distanceMat[i],\ KNN\_K)[:KNN\_K + 1]$
+			\State $knn\_distanceMat[i][knnIdx] \gets Euc\_distanceMat[i][knnIdx]$
+			\For{$j\ in\ knnIdx$}
+				\State $knn\_distanceMat[j][i] \gets knn\_distanceMat[i][j]$
+			\EndFor
+		\EndFor
+		\State $adjacencyTable \gets build\_adjancecy\_table(knn\_distanceMat)$
+		\State $dist \gets np.ones([dataSize,\ dataSize],\ float32)\ *\ inf$
+		\For{$i = 0 \to dataSize-1$}
+			\State $dist[i][i] = 0.0$
+			\State $dijkstra(dist,\ adjacencyTable,\ i)$
+		\EndFor
+		\State $data\_dimK \gets mds(dist,\ topK)$
+		\State \Return{$1NN(data\_dimK,\ trantagMat,\ testtagMat)$}
+	\end{algorithmic}
+\end{algorithm}\\
+
+\newpage
+\noindent
+最终结果：
+\begin{table}[!htbp] 
+	\centering \begin{tabular}{|c|c|c|c|c|} 
+	\hline 
+	\diagbox{$Method$}{$Accuracy$}{$Dim$}&$k=10$&$k=20$&$k=30$&$Dataset$\\
+	\hline $PCA$&0.5825242718446602&0.5631067961165048&0.5631067961165048&$sonar$\\ 
+	\hline $PCA$&0.7581609195402299&0.7627586206896552&0.735632183908046&$splice$\\ 
+	\hline $SVD$&0.5922330097087378&0.5825242718446602&0.5631067961165048&$sonar$\\ 
+	\hline $SVD$&0.7586206896551724&0.7641379310344828&0.7480459770114942&$splice$\\ 
+	\hline $ISOMAP(6NN)$&0.4174757281553398&0.4174757281553398&0.4368932038834951&$sonar$\\ 
+	\hline $ISOMAP(4NN)$&0.6809195402298851&0.6901149425287356&0.6919540229885057&$splice$\\ 
+	\hline 
+	\end{tabular} 
+\end{table}
+\end{solution}
+\newpage 
+\end{document}
