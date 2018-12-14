@@ -1,6 +1,6 @@
 <center><h1>Assignment2: Raft Log Consensus</h1></center>
 
-<center>姓名：刘健&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学号：MF1833039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2018/12/13</center>
+<center>日期：2018/12/13</center>
 
 
 

@@ -1,6 +1,6 @@
 <center><h1>Assignment 1: Raft Leader Election</h1></center>
 
-<center>姓名：刘健&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学号：MF1833039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：2018/11/27</center>
+<center>日期：2018/11/27</center>
 
 
 
