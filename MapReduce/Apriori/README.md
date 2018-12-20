@@ -2,7 +2,7 @@
 
 <center>日期：2018/12/20</center>
 
-==代码说明：src/distributed中的Apriori.scala与Apriori1.scala的区别在于关联规则计算部分，Apriori.scala统计规则A->B左项频度的同时也统计AB的频度，而Apriori1.scala则通过广播频繁项集索引来获取频繁项对应的频度而无需再统计冗余的频繁项频度==
+**代码说明：src/distributed中的Apriori.scala与Apriori1.scala的区别在于关联规则计算部分，Apriori.scala统计规则A->B左项频度的同时也统计AB的频度，而Apriori1.scala则通过广播频繁项集索引来获取频繁项对应的频度而无需再统计冗余的频繁项频度**
 
 ## 一、 实验要求
 
