@@ -1,7 +1,16 @@
+'''
+中心化,未标准化训练、测试数据
+'''
 from numpy import *
 from os import path
 from metrics import _1NN
 import time
+
+# 中心化数据
+def centralize(dataMat):
+    meanVals = mean(dataMat, axis=0)
+    centralizeMat = dataMat - meanVals
+    return centralizeMat
 
 def loadData(filename):
     content = open(filename).readlines()
@@ -11,15 +20,11 @@ def loadData(filename):
     return mat(data), mat(tag)
 
 
-def pca(dataMat, dims):
-    # 求每一特征向量的均值
-    meanVals = mean(dataMat, axis=0)
-    # 中心化数据
-    centralizedMat = (dataMat - meanVals)
+def pca(centralizeMat, dims):
     # 计算协方差矩阵，除数n-1是为了得到协方差的无偏估计
     # cov(X,0) = cov(X) 除数是n-1(n为样本个数)
     # cov(X,1) 除数是n
-    covMat = cov(centralizedMat, rowvar=0)
+    covMat = cov(centralizeMat, rowvar=0)
     # 计算协方差矩阵的特征值及对应的特征向量
     eigVals, eigVects = linalg.eig(covMat)
     # 取前dims大的特征值对应的索引
@@ -37,6 +42,8 @@ def main(resfile=None):
     for fname in ['sonar', 'splice']:
         traindataMat, traintagMat = loadData(ftrain(fname))
         testdataMat, testtagMat = loadData(ftest(fname))
+        traindataMat = centralize(traindataMat)
+        testdataMat = centralize(testdataMat)
         for dims in [10, 20, 30]:
             timestamp = time.time()
             projectionMat = pca(traindataMat, dims)
@@ -47,7 +54,7 @@ def main(resfile=None):
             print("(PCA on %s)当维度为%d时,正确率为：" % (fname, dims), accuracy) 
             print('time used:', time.time() - timestamp, 's')
             if resfile != None:
-                resfile.write('PCA, %s, k = %d, %.16f\n' % (fname, dims, accuracy))
+                resfile.write('PCA(centralize), %s, k = %d, %.16f\n' % (fname, dims, accuracy))
 
 if __name__ == '__main__':
     main()

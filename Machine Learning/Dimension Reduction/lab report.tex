@@ -231,7 +231,7 @@ $$\mathbb{I}(y=j)=
 	此处用于写解答(中英文均可)\\
 \newpage
 \noindent
-1.解：中心化，未标准化
+1.解：中心化，标准化
 \begin{algorithm}  
 	\caption{PCA}  
 	\begin{algorithmic}[1] %每行显示行号  
@@ -239,9 +239,13 @@ $$\mathbb{I}(y=j)=
 		\Ensure 准确率  
 		\State $import\ numpy\ as\ np$
 		\State $meanVals \gets np.mean(traindataMat,\ axis=0)$
-		\State $centralizedMat \gets (traindataMat\ -\ manVals)$
-		\State $convMat \gets np.conv(centralizedMat, rowvar=0)$
-		\State $eigVals,\ eigVects \gets np.linalg.eig(conMat)$
+		\State $stdVals \gets np.std(traindataMat,\ axis=0)$
+		\State $traindataMat \gets (traindataMat\ -\ meanVals)\ /\ stdVals$
+		\State $meanVals \gets np.mean(testdataMat,\ axis=0)$
+		\State $stdVals \gets np.std(testdataMat,\ axis=0)$
+		\State $testdataMat \gets (testdataMat\ -\ meanVals)\ /\ stdVals$
+		\State $convMat \gets np.conv(traindataMat, rowvar=0)$
+		\State $eigVals,\ eigVects \gets np.linalg.eig(convMat)$
 		\State $eigValsIdx\_topK \gets argsort(eigVals)[:-(topK+1):-1]$
 		\State $projectionMat \gets eigVects[:,\ eigValsIdx\_topK]$
 		\State $traindataMat\_proj \gets traindataMat\ *\ projectionMat$
@@ -306,8 +310,10 @@ $$\mathbb{I}(y=j)=
 	\centering \begin{tabular}{|c|c|c|c|c|} 
 	\hline 
 	\diagbox{$Method$}{$Accuracy$}{$Dim$}&$k=10$&$k=20$&$k=30$&$Dataset$\\
-	\hline $PCA$&0.5825242718446602&0.5631067961165048&0.5631067961165048&$sonar$\\ 
-	\hline $PCA$&0.7581609195402299&0.7627586206896552&0.735632183908046&$splice$\\ 
+	\hline $PCA(centralize)$&0.6019417475728155&0.6504854368932039&0.6504854368932039&$sonar$\\ 
+	\hline $PCA(centralize)$&0.7567816091954023&0.7632183908045977&0.7360919540229885&$splice$\\ 
+	\hline $PCA(norm)$&0.6116504854368932&0.6213592233009708&0.6019417475728155&$sonar$\\ 
+	\hline $PCA(norm)$&0.7540229885057471&0.7388505747126437&0.7236781609195402&$splice$\\ 
 	\hline $SVD$&0.5922330097087378&0.5825242718446602&0.5631067961165048&$sonar$\\ 
 	\hline $SVD$&0.7586206896551724&0.7641379310344828&0.7480459770114942&$splice$\\ 
 	\hline $ISOMAP(6NN)$&0.4174757281553398&0.4174757281553398&0.4368932038834951&$sonar$\\ 
