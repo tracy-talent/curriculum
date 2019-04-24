@@ -1,0 +1,88 @@
+UHT-milk : 329
+baking powder : 174
+beef : 516
+berries : 327
+beverages : 256
+bottled beer : 792
+bottled water : 1087
+brown bread : 638
+butter : 545
+butter milk : 275
+cake bar : 130
+candy : 294
+canned beer : 764
+canned fish : 148
+canned vegetables : 106
+cat food : 229
+chewing gum : 207
+chicken : 422
+chocolate : 488
+citrus fruit : 814
+cling film/bags : 112
+coffee : 571
+condensed milk : 101
+cream cheese  : 390
+curd : 524
+dessert : 365
+detergent : 189
+dish cleaner : 103
+dishes : 173
+domestic eggs : 624
+flour : 171
+flower (seeds) : 102
+frankfurter : 580
+frozen dessert : 106
+frozen fish : 115
+frozen meals : 279
+frozen vegetables : 473
+fruit/vegetable juice : 711
+grapes : 220
+ham : 256
+hamburger meat : 327
+hard cheese : 241
+herbs : 160
+hygiene articles : 324
+ice cream : 246
+liquor : 109
+long life bakery product : 368
+margarine : 576
+meat : 254
+misc. beverages : 279
+mustard : 118
+napkins : 515
+newspapers : 785
+oil : 276
+onions : 305
+other vegetables : 1903
+packaged fruit/vegetables : 128
+pasta : 148
+pastry : 875
+pickled vegetables : 176
+pip fruit : 744
+pork : 567
+pot plants : 170
+processed cheese : 163
+red/blush wine : 189
+roll products  : 101
+rolls/buns : 1809
+root vegetables : 1072
+salt : 106
+salty snack : 372
+sausage : 924
+seasonal products : 140
+semi-finished bread : 174
+shopping bags : 968
+sliced cheese : 241
+soda : 1715
+soft cheese : 168
+specialty bar : 269
+specialty chocolate : 299
+spread cheese : 110
+sugar : 333
+tropical fruit : 1032
+waffles : 378
+whipped/sour cream : 705
+white bread : 414
+white wine : 187
+whole milk : 2513
+yogurt : 1372

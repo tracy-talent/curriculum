@@ -1,0 +1,7 @@
+<2>,cd,cp,ls,mv,rm,vi -> <1>	confidence:1.0
+<1>,cd,cp,ls,mv,rm,vi -> <2>	confidence:1.0
+cd,cp,ls,mv,rm,vi -> <1>,<2>	confidence:1.0
+<1>,<2>,cp,ls,mv,rm,vi -> cd	confidence:0.9856115107913669
+<2>,cp,ls,mv,rm,vi -> <1>,cd	confidence:0.9856115107913669
+<1>,cp,ls,mv,rm,vi -> <2>,cd	confidence:0.9856115107913669
+cp,ls,mv,rm,vi -> <1>,<2>,cd	confidence:0.9856115107913669

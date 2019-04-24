@@ -1,0 +1,32 @@
+bottled water,other vegetables,whole milk : 106
+butter,other vegetables,whole milk : 113
+citrus fruit,other vegetables,root vegetables : 102
+citrus fruit,other vegetables,whole milk : 128
+citrus fruit,whole milk,yogurt : 101
+curd,whole milk,yogurt : 99
+domestic eggs,other vegetables,whole milk : 121
+fruit/vegetable juice,other vegetables,whole milk : 103
+other vegetables,pastry,whole milk : 104
+other vegetables,pip fruit,whole milk : 133
+other vegetables,pork,whole milk : 100
+other vegetables,rolls/buns,root vegetables : 120
+other vegetables,rolls/buns,whole milk : 176
+other vegetables,rolls/buns,yogurt : 113
+other vegetables,root vegetables,tropical fruit : 121
+other vegetables,root vegetables,whole milk : 228
+other vegetables,root vegetables,yogurt : 127
+other vegetables,sausage,whole milk : 100
+other vegetables,soda,whole milk : 137
+other vegetables,tropical fruit,whole milk : 168
+other vegetables,tropical fruit,yogurt : 121
+other vegetables,whipped/sour cream,whole milk : 144
+other vegetables,whipped/sour cream,yogurt : 100
+other vegetables,whole milk,yogurt : 219
+rolls/buns,root vegetables,whole milk : 125
+rolls/buns,tropical fruit,whole milk : 108
+rolls/buns,whole milk,yogurt : 153
+root vegetables,tropical fruit,whole milk : 118
+root vegetables,whole milk,yogurt : 143
+soda,whole milk,yogurt : 103
+tropical fruit,whole milk,yogurt : 149
+whipped/sour cream,whole milk,yogurt : 107

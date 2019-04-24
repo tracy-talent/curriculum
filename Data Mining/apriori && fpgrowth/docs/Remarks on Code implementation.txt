@@ -1,0 +1,6 @@
+You may choose to:
+
+1) implement the dummy baseline, Apriori, FP-Growth by your own (encouraged)
+2) use existing codes from packages on the web (please indicate this in your report), in this case . There are a number online resources that implement Apriori and FP-Growth. E.g., the WEKA package introduced in our reference book.
+
+* I. H. Witten, E. Frank. Data Mining: Practical Machine Learning Tools and Techniques, 2nd edition. Morgan Kaufmann Publishers, 2005

@@ -1,0 +1,15 @@
+butter,other vegetables -> whole milk: confidence:0.5736040609137056
+citrus fruit,root vegetables -> other vegetables: confidence:0.5862068965517241
+curd,yogurt -> whole milk: confidence:0.5823529411764706
+domestic eggs,other vegetables -> whole milk: confidence:0.5525114155251142
+other vegetables,pip fruit -> whole milk: confidence:0.5175097276264592
+rolls/buns,root vegetables -> other vegetables: confidence:0.502092050209205
+root vegetables,tropical fruit -> other vegetables: confidence:0.5845410628019324
+root vegetables,yogurt -> other vegetables: confidence:0.5
+other vegetables,whipped/sour cream -> whole milk: confidence:0.5070422535211268
+other vegetables,yogurt -> whole milk: confidence:0.5128805620608899
+rolls/buns,root vegetables -> whole milk: confidence:0.5230125523012552
+root vegetables,tropical fruit -> whole milk: confidence:0.5700483091787439
+root vegetables,yogurt -> whole milk: confidence:0.562992125984252
+tropical fruit,yogurt -> whole milk: confidence:0.5173611111111112
+whipped/sour cream,yogurt -> whole milk: confidence:0.5245098039215687
