@@ -26,7 +26,7 @@ pip install psutil
 
 * 频繁项集挖掘
 
-  src目录下包含apriori频繁项集挖掘算法的三个版本: apriori_dummy.py，apriori_advanced_1.py，apriori_advanced_2.py，分别对应实验报告第三节中的dummy apriori，advanced_1 apriori，advanced_2 apriori.下面以执行apriori_dummy.py为例，其他2个与此类似
+  src目录下包含apriori频繁项集挖掘算法的三个版本: apriori_dummy.py，apriori_advanced_1.py，apriori_advanced_2.py，apriori_advanced_3.py分别对应实验报告第三节中的dummy apriori，advanced_1 apriori，advanced_2 apriori，advanced_3 apriori.下面以执行apriori_dummy.py为例，其他2个与此类似
 
   ```
   python apriori_dummy.py GroceryStore 0.01 10
@@ -68,7 +68,6 @@ pip install psutil
 
   生成的频繁项集和关联规则输出到output目录下
 
-  
 
 ## 二、Fpgrowth
 

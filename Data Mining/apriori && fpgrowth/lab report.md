@@ -1,22 +1,20 @@
 <center><h1>apriori && fpgrowth:频繁模式与关联规则挖掘</h1></center>
 
-
-
 ## 一、实验说明
 
 ### 1.1 任务描述
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2009-17-37%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 09-17-37屏幕截图.png)
 
 
 
 ### 1.2 数据集说明
 
-- GroceryStore数据集
+* GroceryStore数据集
 
   > This data set contains transaction records of a grocery store in a month. Each line is a transaction, where the purchased items line in {}, separated by “,” (the space is replaced by “/”).  In total, there are 9835 transactions of 169 items.
 
-- UNIX_usage数据集
+* UNIX_usage数据集
 
   > The data set contains 9 sets of sanitized user data drawn from the
   > command histories of 8 UNIX computer users at Purdue over the course
@@ -33,61 +31,55 @@
   >
   > For example, the two sessions:
   >
-  > ```
-  > # Start session 1
-  > cd ~/private/docs
-  > ls -laF | more
-  > cat foo.txt bar.txt zorch.txt > somewhere
-  > exit
-  > # End session 1
-  > 
-  > # Start session 2
-  > cd ~/games/
-  > xquake &
-  > fg
-  > vi scores.txt
-  > mailx john_doe@somewhere.com
-  > exit
-  > # End session 2
-  > ```
+  > 	# Start session 1
+  > 	cd ~/private/docs
+  > 	ls -laF | more
+  > 	cat foo.txt bar.txt zorch.txt > somewhere
+  > 	exit
+  > 	# End session 1
+  > 	
+  > 	# Start session 2
+  > 	cd ~/games/
+  > 	xquake &
+  > 	fg
+  > 	vi scores.txt
+  > 	mailx john_doe@somewhere.com
+  > 	exit
+  > 	# End session 2
   >
   > would be represented by the token stream
   > ​	
-  >
-  > ```
-  > **SOF**
-  > cd
-  > <1>			# one "file name" argument
-  > ls
-  > -laF
-  > |
-  > more
-  > cat
-  > <3>			# three "file" arguments
-  > >
-  > <1>
-  > exit
-  > **EOF**
-  > **SOF**
-  > cd
-  > <1>
-  > xquake
-  > &
-  > fg
-  > vi
-  > <1>
-  > mailx
-  > <1>
-  > exit
-  > **EOF**
-  > ```
+  > ​	**SOF**
+  > ​	cd
+  > ​	<1>			# one "file name" argument
+  > ​	ls
+  > ​	-laF
+  > ​	|
+  > ​	more
+  > ​	cat
+  > ​	<3>			# three "file" arguments
+  > ​	>
+  > ​	<1>
+  > ​	exit
+  > ​	**EOF**
+  > ​	**SOF**
+  > ​	cd
+  > ​	<1>
+  > ​	xquake
+  > ​	&
+  > ​	fg
+  > ​	vi
+  > ​	<1>
+  > ​	mailx
+  > ​	<1>
+  > ​	exit
+  > ​	**EOF**
 
 
 
 
 
 ## 二、代码设计与实现
-
 对apriori算法手动实现了一个dummy版本和一个advanced版本，dummy版本没有使用剪枝的trick，使用暴力的方法生成候选项级，対事务表不做任何处理。而advanced版本则在dummy版本的基础上加入了一剪枝的trick，性能更胜一筹。对fpgrowth算法使用了已有的python包，其中的实现细节没有深入去review了。下面对这几份代码的详细设计与实现做一个说明。
 
 ### 2.1 dummy apriori
@@ -196,9 +188,9 @@ def count_freqset(data, candidates_k):
 
 ### 2.2 advanced apriori
 
-advanced apriori在dummy apriori的基础上加入了一些剪枝的技巧，包括减小生成候选项集的规模、不断减少事务表规模。
+advanced apriori在dummy apriori的基础上加入了一些剪枝的技巧，包括减小生成候选项集的规模、不断减少事务表规模、减少事务表中元组中的项。
 
-- 减小生成候选项集规模
+* 减小生成候选项集规模
 
   如果一个k+1候选项是频繁的，那么生成它的k频繁项集中必包含其k+1个子集。例如，如果{t1, t2, t3, t5}是频繁的，那么它将由{t1, t2, t3}和{t1, t2,t5 }生成，否则它就不会被生成。这么做要求生成候选项集的频繁项集的项内是有序的，各项之间也是有序的。
 
@@ -236,9 +228,14 @@ advanced apriori在dummy apriori的基础上加入了一些剪枝的技巧，包
       return candidates
   ```
 
-- 减小事务表规模
+* 减小事务表规模
 
-  如果一个k+1项候选项能与事务表中一条记录匹配，那么其k+1个子集也必能与事务表中该条记录匹配。因此在事务表中匹配k候选项集的时候，统计每条记录没匹配到的次数，如果少于k+1次，那么将该条记录从事务表中移除，因为它绝不可能与下一轮的任一k+1项候选项匹配。这样每次迭代都减小了事务表的规模，从而减小扫描事务表的时间消耗
+  如果一个k+1项候选项能与事务表中一条记录匹配，那么其k+1个子集也必能与事务表中该条记录匹配。因此在事务表中匹配k候选项集的时候，统计每条记录被匹配到的次数，如果少于k+1次，那么将该条记录从事务表中移除，因为它绝不可能与下一轮的任一k+1项候选项匹配。这样每次迭代都减小了事务表的规模，从而减小扫描事务表的时间消耗
+
+
+* 减少事务表中元组的项
+
+  如果事务表中元组的某一项能包含在一个k+1频繁项中，那么该项比出现在这个k+1频繁项的k个k项子集中。所以在扫描事务表统计k项候选集的出现频次时，如果事务表中任一元组的某一项未被匹配中k次,那么该项将在筛选出k频繁项集后从元组中除去，从而减少统计k+1项候选集频次时与事务表中元组的匹配次数。具体实现在减少事务表规模实现的基础上稍作修改即可，下面是结合减少事务表规模以及表中元组项数的实现
 
   ```python
   def count_freqset(data, candidates_k):
@@ -246,11 +243,11 @@ advanced apriori在dummy apriori的基础上加入了一些剪枝的技巧，包
       对照事务表统计候选项集频次
       :param data: 事务集
       :param candidates_k: k候选项集
-      :return: 候选项映射到频次的dict， 剪枝依据list
+      :return: 候选项映射到频次的dict
       """
       prune_basis = []
-      for i in range(len(data)):
-          prune_basis.append(0)
+      for itemset in data:
+          prune_basis.append([0] * (len(itemset) + 1))
       counter = {}
       for can in candidates_k:
           canset = set(can)
@@ -259,10 +256,39 @@ advanced apriori在dummy apriori的基础上加入了一些剪枝的技巧，包
           for i in range(len(data)):
               if canset <= data[i]:
                   counter[canstr] += 1
-                  prune_basis[i] += 1
+                  prune_basis[i][-1] += 1
+                  j = 0
+                  for item in data[i]:
+                      if item in canset:
+                          prune_basis[i][j] += 1
+                      j += 1
       return counter, prune_basis
+  
+  def prune(data, prune_basis, k):
+      """
+      由k-1的频繁项集生成k候选项集
+      :param data: 存储事务的列表
+      :param prune_basis: 由k候选项集匹配事务表时生成的剪枝依据
+      :param k: 为生成k+1频繁项集剪枝
+      :return: None
+      """
+      # 删除列表中某一项之后列表元素会自动往前补位,即被删除元素后的元素对应索引-1
+      if len(prune_basis) != 0:
+          h = 0
+          for i in range(len(prune_basis)):
+              if prune_basis[i][-1] < k + 1:
+                  del data[h]
+              else:
+                  j = 0
+                  del_items = []
+                  for item in data[h]:
+                      if prune_basis[i][j] < k:
+                          del_items.append(item)
+                      j += 1
+                  for item in del_items:
+                      data[h].remove(item)
+                  h += 1
   ```
-
 
 
 ### 2.3 基于apriori的频繁项集挖掘关联规则
@@ -343,7 +369,7 @@ association_rules = pyfpgrowth.generate_association_rules(freq_patterns, min_con
 
 ### 3.1 实验结果展示
 
-- apriori算法在UNIX_usage数据集上挖掘的频繁5-项集的一部分(支持度0.01)
+* apriori算法在UNIX_usage数据集上挖掘的频繁5-项集的一部分(支持度0.01)
 
 ```
 &,-l,<1>,<2>,cd : 131
@@ -361,7 +387,7 @@ association_rules = pyfpgrowth.generate_association_rules(freq_patterns, min_con
 &,<1>,<2>,mv,rm : 114
 ```
 
-- apriori算法在GroceryStore数据集上挖掘的频繁3-项集的一部分(支持度0.01)
+* apriori算法在GroceryStore数据集上挖掘的频繁3-项集的一部分(支持度0.01)
 
 ```
 bottled water,other vegetables,whole milk : 106
@@ -376,7 +402,7 @@ other vegetables,pastry,whole milk : 104
 other vegetables,pip fruit,whole milk : 133
 ```
 
-- apriori算法在GroceryStore数据集上挖掘的一些关联规则(支持度0.01，置信度：0.5)
+* apriori算法在GroceryStore数据集上挖掘的一些关联规则(支持度0.01，置信度：0.5)
 
 ```
 butter,other vegetables -> whole milk	confidence:0.5736040609137056
@@ -388,7 +414,7 @@ rolls/buns,root vegetables -> other vegetables	confidence:0.502092050209205
 root vegetables,tropical fruit -> other vegetables	confidence:0.5845410628019324
 ```
 
-- fpgrowth算法在GroceryStore数据集上挖掘的一些关联规则(置信度0.5)
+* fpgrowth算法在GroceryStore数据集上挖掘的一些关联规则(置信度0.5)
 
 ```
 curd,yogurt -> whole milk	confidence: 0.5823529411764706
@@ -398,7 +424,7 @@ other vegetables,whipped/sour cream -> whole milk	confidence: 0.5070422535211268
 other vegetables,pip fruit -> whole milk	confidence: 0.5175097276264592 
 ```
 
-- apriori算法在UNIX_usage数据集上挖掘的一些关联规则a -> b(支持度0.01， 置信度：0.8)
+* apriori算法在UNIX_usage数据集上挖掘的一些关联规则a -> b(支持度0.01， 置信度：0.8)
 
   ```
   & -> <1>	confidence:0.8453738910012675
@@ -427,7 +453,7 @@ other vegetables,pip fruit -> whole milk	confidence: 0.5175097276264592
 
 ##### 3.2.1.1 UNIX_usage Dataset
 
-对比dummy apriori，仅剪枝候选项集规模的advanced_1 apriori，剪枝候选项集规模和事务表规模的advanced_2 apriori在相同数据集、实验环境和实验参数下的时间损耗(单位：秒/s)
+对比dummy apriori，仅剪枝候选项集规模的advanced_1 apriori，剪枝候选项集规模和事务表规模的advanced_2 apriori，剪枝候选项集规模和事务表规模以及表中元组项数的advanced_3 apriori在相同数据集、实验环境和实验参数下的时间损耗(单位：秒/s)
 
 > 实验参数与数据集：
 >
@@ -437,7 +463,7 @@ other vegetables,pip fruit -> whole milk	confidence: 0.5175097276264592
 >
 > 数据集：UNIX_usage
 
-下面表格中以da表示dummy apriori，a1a表示advance_1 apriori,a2a表示advanced_2 apriori
+下面表格中以da表示dummy apriori，a1a表示advance_1 apriori,a2a表示advanced_2 apriori,a3a表示advanced_3 apriori
 
 <center>表 1 apriori在UNIX_usage数据集上的频繁项集挖掘时耗(秒/s)</center>
 
@@ -446,6 +472,7 @@ other vegetables,pip fruit -> whole milk	confidence: 0.5175097276264592
 |  da  | 0.021  | 2.156  | 17.066 | 33.359 | 35.156 | 17.190 | 2.522  | 0.183  |
 | a1a  | 0.016  | 2.960  | 5.234  | 5.808  | 2.812  | 0.675  | 0.128  | 0.007  |
 | a2a  | 0.019  | 2.962  | 3.208  | 2.758  | 1.200  | 0.246  | 0.027  | 0.001  |
+| a3a  | 0.017  | 3.311  | 3.997  | 3.658  | 1.663  | 0.413  | 0.051  | 0.002  |
 
 ##### 3.2.1.2 GroceryStore Dataset
 
@@ -464,20 +491,23 @@ other vegetables,pip fruit -> whole milk	confidence: 0.5175097276264592
 |  da  | 0.019  | 1.255  | 2.547  |
 | a1a  | 0.014  | 1.978  | 0.402  |
 | a2a  | 0.012  | 1.982  | 0.263  |
+| a3a  | 0.014  | 2.254  | 0.322  |
 
 #### 3.2.2 关联规则挖掘
 
+由于关联规则挖掘依赖频繁项集挖掘,选择上述时间性能最好的apriori算法来实现关联呢规则挖掘
+
 ##### 3.2.2.1 UNIX_usage Dataset
 
-> 实验参数与数据集：
+>实验参数与数据集：
 >
-> 支持度：0.01
+>支持度：0.01
 >
-> 最大频繁项大小：10
+>最大频繁项大小：10
 >
-> 置信度：0.8
+>置信度：0.8
 >
-> 数据集：UNIX_usage
+>数据集：UNIX_usage
 
 <center>表 3  UNIX_usage数据集上的关联规则挖掘时耗(秒/s)</center>
 
@@ -505,7 +535,7 @@ other vegetables,pip fruit -> whole milk	confidence: 0.5175097276264592
 
 #### 3.2.3 简要分析
 
-从两个数据集的表现来看，advanced_2 apriori性能是最好的，advanced_1 apriori性能与advanced_2 apriori性能相近，在较小的数据集GroceryStore上差距在毫秒级别，在较大数据集UNIX_usage上差距在几秒以内。而advanced apriori的两个算法相比dummy apriori在时间性能上提升了好几倍。由此可知，时间性能的主要提升点在减小候选项集规模，减小事务表规模的时间性能提升效果不明显，但是当数据规模较大时也能带来秒级的性能提升。在aporiori挖掘出的频繁项集基础上挖掘强关联规则的时间消耗基本与只作频繁项集挖掘的时间消一致，这是因为k-频繁项的k还比较小，生成的子集不多，相对于候选集生成与数据记录扫描匹配的时间复杂度可忽略不计，这才使得两者时间消耗基本一致。当频繁项足够长时，子集的数目是呈指数增长的，那是复杂度将变得让人难以接受，因此使用apriori挖掘关联规则时最好限制要挖掘的最大频繁项的大小。
+从两个数据集的表现来看，advanced_2 apriori性能是最好的，advanced_1 apriori性能与advanced_2 apriori性能相近，在较小的数据集GroceryStore上差距在毫秒级别，在较大数据集UNIX_usage上差距在几秒以内。advanced_3 apriori理想情况下应该是性能最好的，因其使用了最多的剪枝技巧，但是实际情况却并非如此，用在删减事务表中元组项的时间比其能优化的时间还要多，得不偿失，如果能删除较多的元组项就能带来不错的性能提升，所以这一剪枝的trick能否有效还是要视数据集而定，不同的数据集上优化效果也不一样。而advanced apriori的三个算法相比dummy apriori在时间性能上提升了好几倍。由此可知，时间性能的主要提升点在减小候选项集规模，减小事务表规模的时间性能提升效果不明显，但是当数据规模较大时也能带来秒级的性能提升。在aporiori挖掘出的频繁项集基础上挖掘强关联规则的时间消耗基本与只作频繁项集挖掘的时间消一致，这是因为k-频繁项的k还比较小，生成的子集不多，相对于候选集生成与数据记录扫描匹配的时间复杂度可忽略不计，这才使得两者时间消耗基本一致。当频繁项足够长时，子集的数目是呈指数增长的，那是复杂度将变得让人难以接受，因此使用apriori挖掘关联规则时最好限制要挖掘的最大频繁项的大小。
 
 
 
@@ -521,21 +551,25 @@ other vegetables,pip fruit -> whole milk	confidence: 0.5175097276264592
 >
 > 数据集：UNIX_usage
 
-- dummy apriori频繁项集挖掘
+* dummy apriori频繁项集挖掘
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2011-08-35%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 11-08-35屏幕截图.png)
 
-- advanced_1 apriori频繁项集挖掘
+* advanced_1 apriori频繁项集挖掘
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2011-08-51%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 11-08-51屏幕截图.png)
 
-- advanced_2 apriori频繁项集挖掘
+* advanced_2 apriori频繁项集挖掘
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2011-09-07%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 11-09-07屏幕截图.png)
 
-- advanced_2 apriori关联规则挖掘
+* advanced_3 apriori频繁项集挖掘
 
-  ![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2020-21-39%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-25 23-52-40屏幕截图.png)
+
+* advanced_2 apriori关联规则挖掘
+
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 20-21-39屏幕截图.png)
 
 #### 3.3.2 GroceryStore Dataset
 
@@ -549,25 +583,30 @@ other vegetables,pip fruit -> whole milk	confidence: 0.5175097276264592
 >
 > 数据集：GroceryStore
 
-- dummy apriori频繁项集挖掘
+* dummy apriori频繁项集挖掘
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2011-09-27%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 11-09-27屏幕截图.png)
 
-- advanced_1 apriori频繁项集挖掘
+* advanced_1 apriori频繁项集挖掘
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2011-09-43%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 11-09-43屏幕截图.png)
 
-- advanced_2 apriori频繁项集挖掘
+* advanced_2 apriori频繁项集挖掘
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2011-10-01%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 11-10-01屏幕截图.png)
 
-- advanced_2 apriori关联规则挖掘
+* advanced_3 apriori频繁项集挖掘
 
-  ![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2020-21-02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-25 23-53-00屏幕截图.png)
 
-- fpgrowth关联规则挖掘
+* advanced_2 apriori关联规则挖掘
 
-  ![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23%2020-21-22%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 20-21-02屏幕截图.png)
+
+* fpgrowth关联规则挖掘
+
+![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/2019-04-23 20-21-22屏幕截图.png)
 
 #### 3.3.3 简要分析对比
 
