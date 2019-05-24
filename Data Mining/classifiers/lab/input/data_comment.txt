@@ -1,0 +1,13 @@
+连续型数据集: 
+1. diabets(4:8d-2c)
+2. mozilla4(6:5d-2c)
+3. pc1(7:21d-2c)
+4. pc5(8:38d-2c)
+5. waveform-5000(9:40d-3c)
+离散型数据集:
+1. breast-w(0:9d-2c-?)
+离散-连续混合型数据集:
+1. colic(1:22d-2c-?)
+2. credit-a(2:15d-2c-?)
+3. credit-g(3:20d-2c)
+4. hepatitis(少量离散属性)(5:19d-2c-?)
