@@ -3,7 +3,7 @@
 ## 1.1 任务描述
 
 <div align="center">
-    <img src='/home/brooksj/blog/source/images/classifiers/assignment.png'>
+    <img src='https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/assignment.png'>
 </div>
 
 ## 1.2 数据说明
@@ -79,7 +79,7 @@ accuracy2 = np.mean(skf_accuracy2)
 在各个数据集上进行交叉验证后的accuracy和AUC性能指标如下
 
 <div align="center">
-    <img src='/home/brooksj/blog/source/images/classifiers/single_alg_on_all_datasets/naive_bayes_gaussian.png'>
+    <img src='https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_alg_on_all_datasets/naive_bayes_gaussian.png'>
 </div>
 
 可以看到大部分数据集上的auc指标都比acc高，说明控制好概率阈值(这里默认0.5)acc可能还有提升空间，因为样本分布跟总体分布还有一定的差距，样本数布可能很不平衡，并且权衡一个合适的阈值点还需要结合分类问题的背景和关注重点。由于auc指标考虑到了所有可能阈值划分情况，auc越高能说明模型越理想，总体上能表现得更好。
@@ -95,7 +95,7 @@ clf = DecisionTreeClassifier(random_state=0, criterion='gini')
 在各个数据集上进行交叉验证后的accuracy和AUC性能指标如下
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/single_alg_on_all_datasets/decision_tree.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_alg_on_all_datasets/decision_tree.png">
 </div>
 
 ## 3.3 K近邻KNN
@@ -109,7 +109,7 @@ clf = KNeighborsClassifier(n_neighbors=3)
 在各个数据集上进行交叉验证后的accuracy和AUC性能指标如下
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/single_alg_on_all_datasets/knn.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_alg_on_all_datasets/knn.png">
 </div>
 
 ## 3.4 神经网络之多层感知机MLP
@@ -131,7 +131,7 @@ clf = MLPClassifier(hidden_layer_sizes=(100),
 在各个数据集上进行交叉验证后的accuracy和AUC性能指标如下
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/single_alg_on_all_datasets/mlp.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_alg_on_all_datasets/mlp.png">
 </div>
 
 ## 3.5 支持向量机SVM
@@ -145,7 +145,7 @@ clf = LinearSVC(penalty='l2', random_state=0, tol=1e-4)
 在各个数据集上进行交叉验证后的accuracy和AUC性能指标如下
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/single_alg_on_all_datasets/linear_svm.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_alg_on_all_datasets/linear_svm.png">
 </div>
 
 # 四、实验结果与分析
@@ -157,7 +157,7 @@ clf = LinearSVC(penalty='l2', random_state=0, tol=1e-4)
 breast-w数据集上，各分类模型的效果都很好，其中linear svm的准确率最高，mlp的auc值最高
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/breast-w.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/breast-w.png">
 </div>
 
 ### 4.1.2 colic dataset
@@ -165,7 +165,7 @@ breast-w数据集上，各分类模型的效果都很好，其中linear svm的�
 colic数据集上，knn效果不佳，其它分类模型的效果都很好，其中decision tree的准确率最高，mlp的auc值最高
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/colic.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/colic.png">
 </div>
 
 ### 4.1.3 credit-a dataset
@@ -173,7 +173,7 @@ colic数据集上，knn效果不佳，其它分类模型的效果都很好，其
 credit-a数据集上，各分类模型的效果都不是很好，其中decision tree的准确率最高，naive bayes的auc值最高
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/credit-a.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/credit-a.png">
 </div>
 
 ### 4.1.4 credit-g dataset
@@ -181,7 +181,7 @@ credit-a数据集上，各分类模型的效果都不是很好，其中decision 
 credit-a数据集上，各分类模型的效果都不是很好，其中naive bayes的准确率和auc值都是最高的
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/credit-g.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/credit-g.png">
 </div>
 
 ### 4.1.5 diabetes dataset
@@ -189,7 +189,7 @@ credit-a数据集上，各分类模型的效果都不是很好，其中naive bay
 diabetes数据集上，各分类模型的效果都不是很好，其中naive bayes的准确率和auc值都是最高的
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/diabetes.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/diabetes.png">
 </div>
 
 ### 4.1.6 hepatitis dataset
@@ -197,12 +197,12 @@ diabetes数据集上，各分类模型的效果都不是很好，其中naive bay
 hepatitis数据集上，各分类模型的准确率都没达到90%，decision tree的准确率最高，mlp的auc值最高，但是各分类模型的auc值基本都比acc高除了decision tree，说明hepatitis数据集的数据分布可能不太平衡
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/hepatitis.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/hepatitis.png">
 </div>
 
 通过weka对hepatitis数据集上的正负类进行统计得到下面的直方图
 
-![](/home/brooksj/blog/source/images/classifiers/hepatitis数据分布.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/hepatitis数据分布.png)
 
 从上面的直方图可以验证之前的猜测是对的，hepatitis数据集正负类1:4，数据分布不平衡，正类远少于负类样本数
 
@@ -211,7 +211,7 @@ hepatitis数据集上，各分类模型的准确率都没达到90%，decision tr
 mozilla4数据集上，各分类模型的表现差异很大，其中knn的acc和auc都是最高的，naivie bayes的acc和auc相差甚大
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/mozilla4.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/mozilla4.png">
 </div>
 
 ### 4.1.8 pc1 dataset
@@ -219,7 +219,7 @@ mozilla4数据集上，各分类模型的表现差异很大，其中knn的acc和
 pc1数据集上，各分类模型的准确率基本都挺高的，但是auc值普遍都很低，使用weka对数据进行统计分析后发现pc1数据集的正负类比达到13:1，根据auc计算原理可知正类太多可能会导致TPR相比FPR会低很多，从而压低了auc值
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/pc1.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/pc1.png">
 </div>
 
 ### 4.1.9 pc5 dataset
@@ -227,7 +227,7 @@ pc1数据集上，各分类模型的准确率基本都挺高的，但是auc值�
 pc5数据集上，各分类模型的准确率都达到了90%以上，但是auc都比acc要低，其中mlp和linear svm的acc与auc相差甚大，原因估计和pc1差不多，正类样本太多拉低了AUC，使用weka分析后发现pc5正负类样本比值达到了32:1，并且数据中夹杂着些许异常的噪声点
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/pc5.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/pc5.png">
 </div>
 
 ### 4.1.10 waveform-5000 dataset
@@ -235,7 +235,7 @@ pc5数据集上，各分类模型的准确率都达到了90%以上，但是auc�
 waveform-5000数据集上，各分类模型的准确率基本都是在80%左右，各分类模型的auc基本都有90%除了decision tree以外。waveform-5000是一个三类别的数据集，相比前面的2分类数据集预测难度也会更大，概率阈值的选择尤为关键，一个好的阈值划分会带来更高的准确率。
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/algs_on_single_dataset/waveform-5000.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/algs_on_single_dataset/waveform-5000.png">
 </div>
 
 ## 4.2 模型的bagging和single性能对比
@@ -245,104 +245,104 @@ waveform-5000数据集上，各分类模型的准确率基本都是在80%左右�
 准确率对比
 
 <div align="center">
-    <img src="/home/brooksj/blog/source/images/classifiers/single_bagging_acc/breast-w.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/breast-w.png">
 </div>
 
 
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/breast-w.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/breast-w.png)
 
 ### 4.2.1 colic dataset
 
 准确率对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_acc/colic.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/colic.png)
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/colic.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/colic.png)
 
 ### 4.2.3 credit-a dataset
 
 准确率对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_acc/credit-a.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/credit-a.png)
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/credit-a.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/credit-a.png)
 
 ### 4.2.4 credit-g dataset
 
 准确率对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_acc/credit-g.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/credit-g.png)
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/credit-g.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/credit-g.png)
 
 ### 4.2.5 diabetes dataset
 
 准确率对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_acc/diabetes.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/diabetes.png)
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/diabetes.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/diabetes.png)
 
 ### 4.2.6 hepatitis dataset
 
 准确率对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_acc/hepatitis.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/hepatitis.png)
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/hepatitis.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/hepatitis.png)
 
 ### 4.2.7 mozilla4 dataset
 
 准确率对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_acc/mozilla4.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/mozilla4.png)
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/mozilla4.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/mozilla4.png)
 
 ### 4.2.8 pc1 dataset
 
 准确率对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_acc/pc1.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/pc1.png)
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/pc1.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/pc1.png)
 
 ### 4.2.9 pc5 dataset
 
 准确率对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_acc/pc5.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/pc5.png)
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/pc5.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/pc5.png)
 
 ### 4.2.10 waveform-5000 dataset
 
 准确率对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_acc/waveform-5000.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_acc/waveform-5000.png)
 
 AUC对比
 
-![](/home/brooksj/blog/source/images/classifiers/single_bagging_auc/waveform-5000.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/single_bagging_auc/waveform-5000.png)
 
 ## 五、优化
 
@@ -352,15 +352,15 @@ pc1，pc5，waveform-5000，colic，credit-g这几个数据集的属性维度都
 
 使用sklearn.discriminant_analysis.LinearDiscriminantAnalysis对waveform-5000降维之后的数据样本分布散点图如下，可以明显看到数据被聚为三类，降维之后的数据特征信息更为明显，干扰信息更少，对分类更有利
 
-![](/home/brooksj/blog/source/images/classifiers/waveform-lda.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/lda_waveform/lda_effect.png)
 
 各分类模型在原数据集和LDA降维数据集上准确率对比如下图
 
-![](/home/brooksj/blog/source/images/classifiers/lda_waveform_acc.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/lda_waveform/lda_waveform_acc.png)
 
 各分类模型在原数据集和LDA降维数据集上AUC值对比如下图
 
-![](/home/brooksj/blog/source/images/classifiers/lda_waveform_auc.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/lda_waveform/lda_waveform_auc.png)
 
 可以看到降维之后的分类效果很理想，无论是acc还是auc，各个分类模型都得到了不同程度的性能提升
 
@@ -370,11 +370,11 @@ pc1，pc5，waveform-5000，colic，credit-g这几个数据集的属性维度都
 
 bagging with KNN在原数据集和标准化数据集上准确率对比如下图
 
-![](/home/brooksj/blog/source/images/classifiers/baggingknn_isnorm/baggingknn_isnorm_acc.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/baggingknn_isnorm/baggingknn_isnorm_acc.png)
 
 bagging with KNN在原数据集和标准化数据集上AUC对比如下图
 
-![](/home/brooksj/blog/source/images/classifiers/baggingknn_isnorm/baggingknn_isnorm_auc.png)
+![](https://raw.githubusercontent.com/tracy-talent/curriculum/master/Data%20Mining/classifiers/lab/imgs/baggingknn_isnorm/baggingknn_isnorm_auc.png)
 
 可以看到标准化之后效果还是不错的，无论是acc还是auc，基本在各数据集上都得到了性能提升
 
