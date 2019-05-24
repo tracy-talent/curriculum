@@ -80,7 +80,7 @@ for i in range(2):
     if i == 0:
         plt.savefig("../imgs/lda_waveform/lda_waveform_acc.png")
     else:
-        plt.savefig("../imgs/lda_waveform/lda_wavefrom_auc.png")
+        plt.savefig("../imgs/lda_waveform/lda_waveform_auc.png")
 
 pdf.close()
 # plt.show()
