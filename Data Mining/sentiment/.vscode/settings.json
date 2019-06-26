@@ -1,0 +1,13 @@
+{
+    "workbench.settings.openDefaultKeybindings": true,
+    "workbench.settings.openDefaultSettings": true,
+    "workbench.settings.editor": "json",
+    "workbench.colorTheme": "One Dark Pro",
+    "files.autoGuessEncoding": true,
+
+    "python.pythonPath": "/usr/local/anaconda2/envs/Ner/bin/python",
+    "vsicons.dontShowNewVersionMessage": true,
+    "python.linting.pylintArgs": [ // 关闭pylint的波浪线提示
+        "--disable=W,C,E" 
+    ]
+}
