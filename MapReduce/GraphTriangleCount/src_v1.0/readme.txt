@@ -1,3 +1,3 @@
-最稳定，鲁棒性最好的版本：
-1、节点编号用Text存储，所以无论节点编号多大都可以存储以及比较
-2、输入的图可以允许重复边的出现，不会影响结果的正确性
+version https://git-lfs.github.com/spec/v1
+oid sha256:b84d2cb0062e017f30bd1b6fb5852c546c8d219b1cd0b87d74141e9d4f4bccf9
+size 210

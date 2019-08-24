@@ -1,7 +1,3 @@
-curd,yogurt -> whole milk	confidence: 0.5823529411764706
-butter,other vegetables -> whole milk	confidence: 0.5736040609137056
-domestic eggs,other vegetables -> whole milk	confidence: 0.5525114155251142
-other vegetables,whipped/sour cream -> whole milk	confidence: 0.5070422535211268
-other vegetables,pip fruit -> whole milk	confidence: 0.5175097276264592
-citrus fruit,root vegetables -> other vegetables	confidence: 0.5862068965517241
-other vegetables,yogurt -> whole milk	confidence: 0.5128805620608899
+version https://git-lfs.github.com/spec/v1
+oid sha256:1e38464cfed2953a7948aeb081cdb8b806dfd2e9e64a516a18be02195ab7b227
+size 504
