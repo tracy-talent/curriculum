@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>MapReduce</groupId>
-    <artifactId>wordcount</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <inceptionYear>2008</inceptionYear>
+    <groupId>bigdata</groupId>
+    <artifactId>MapReduce</artifactId>
+    <version>1.0</version>
+    <inceptionYear>2019</inceptionYear>
     <properties>
         <scala.version>2.11.8</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
@@ -19,6 +19,10 @@
         <alluxio.version>1.7.0</alluxio.version>
         <config.version>1.2.1</config.version>
         <eclipse.coollection.version>7.1.0</eclipse.coollection.version>
+        <!--NLP-->
+        <nlplang.version>1.7.7</nlplang.version>
+        <corenlp.version>3.9.2</corenlp.version>
+        <!--NLP-->
         <provide-scope>provided</provide-scope>
         <compile-scope>compile</compile-scope>
     </properties>
@@ -72,124 +76,71 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-            <!--<scope>${provide-scope}</scope>-->
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_${scala.binary.version}</artifactId>
-            <version>${spark.version}</version>
-            <!--<scope>${provide-scope}</scope>-->
-            <scope>${compile-scope}</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-mllib_${scala.binary.version}</artifactId>
-            <version>${spark.version}</version>
-            <!--<scope>${provide-scope}</scope>-->
-            <scope>${compile-scope}</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_${scala.binary.version}</artifactId>
-            <version>${spark.version}</version>
-            <!--<scope>${provide-scope}</scope>-->
-            <scope>${compile-scope}</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming_${scala.binary.version}</artifactId>
-            <version>${spark.version}</version>
-            <!--<scope>${provide-scope}</scope>-->
-            <scope>${compile-scope}</scope>
-        </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>org.apache.spark</groupId>-->
-        <!--<artifactId>spark-examples_${scala.binary.version}</artifactId>-->
-        <!--<version>1.6.0-typesafe-001</version>-->
-        <!--<scope>${compile-scope}</scope>-->
-        <!--</dependency>-->
-
-
-        <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
-            <!--<scope>${provide-scope}</scope>-->
-            <scope>${compile-scope}</scope>
+            <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
             <version>${hadoop.version}</version>
-            <!--<scope>${provide-scope}</scope>-->
-            <scope>${compile-scope}</scope>
+            <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
             <version>${hadoop.version}</version>
-            <scope>${compile-scope}</scope>
+            <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-core</artifactId>
             <version>${hadoop.version}</version>
-            <scope>${compile-scope}</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-client</artifactId>
-            <version>${hbase.version}</version>
-            <scope>${compile-scope}</scope>
+            <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
         </dependency>
 
         <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-server</artifactId>
-            <version>${hbase.version}</version>
-            <scope>${compile-scope}</scope>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+             <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
+            <exclusions>
+                <exclusion>
+                    <!--  make sure wrong scala version is not pulled in  -->
+                    <groupId>org.scala-lang</groupId>
+                    <artifactId>scala-library</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
-
         <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-common</artifactId>
-            <version>${hbase.version}</version>
-            <scope>${compile-scope}</scope>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-mllib_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+             <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
         </dependency>
-
         <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-protocol</artifactId>
-            <version>${hbase.version}</version>
-            <scope>${compile-scope}</scope>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+             <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
         </dependency>
-
         <dependency>
-            <groupId>org.apache.zookeeper</groupId>
-            <artifactId>zookeeper</artifactId>
-            <version>${zookeeper.version}</version>
-            <scope>${compile-scope}</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.alluxio</groupId>
-            <artifactId>alluxio-core-client-fs</artifactId>
-            <version>${alluxio.version}</version>
-            <scope>${compile-scope}</scope>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+             <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
         </dependency>
 
         <dependency>
@@ -199,13 +150,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!--<dependency>
-            <groupId>cn.edu.nju.pasalab</groupId>
-            <artifactId>kvstore-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>${compile-scope}</scope>
-        </dependency>-->
-
         <!-- https://mvnrepository.com/artifact/it.unimi.dsi/fastutil -->
         <dependency>
             <groupId>it.unimi.dsi</groupId>
@@ -213,6 +157,33 @@
             <version>8.1.1</version>
         </dependency>
 
+        <!--NLP package-->
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>${corenlp.version}</version>
+            <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>${corenlp.version}</version>
+            <classifier>models</classifier>
+            <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>${corenlp.version}</version>
+            <classifier>models-chinese</classifier>
+            <scope>${provide-scope}</scope>
+            <!--<scope>${compile-scope}</scope>-->
+        </dependency>
+        <!--NLP package-->
 
     </dependencies>
 
@@ -242,6 +213,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.4.3</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -289,6 +263,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>6</source>
+                    <target>6</target>
+                </configuration>
             </plugin>
 
         </plugins>
