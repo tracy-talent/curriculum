@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+<configuration>
+
+<!-- Site specific YARN configuration properties -->
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>mapreduce_shuffle</value>
+</property>
+<property>
+<name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+<property>
+<name>yarn.resourcemanager.address</name>
+<value>slave103:8032</value>
+</property>
+<property>
+<name>yarn.log-aggregation-enable</name>
+<value>true</value>
+</property>
+<property>
+<name>yarn.log.server.url</name>
+<value>http://slave103:19888/jobhistory/logs/</value>
+</property>
+<property >
+<name>yarn.log-aggregation.retain-seconds</name>
+<value>604800</value>
+</property>
+<property>
+<name>yarn.nodemanager.remote-app-log-dir</name>
+<value>/app-logs</value>
+</property>
+<property>
+<name>yarn.nodemanager.remote-app-log-dir-suffix</name>
+<value>logs</value>
+</property>
+<!-- property>
+<name>yarn.nodemanager.local-dirs</name>
+<value>/home/liujian/bigdata/hadoop/hadoop-2.7.5/yarn/local</value>
+</property -->
+<!-- 是否将对容器强制实施物理内存限制 -->
+<property>
+<name>yarn.nodemanager.pmem-check-enabled</name>
+<value>false</value>
+</property>
+<!-- 是否将对容器强制实施虚拟内存限制 -->
+<property>
+<name>yarn.nodemanager.vmem-check-enabled</name>
+<value>false</value>
+</property>
+<!--节点虚拟内核数-->
+<property>
+<name>yarn.nodemanager.resource.cpu-vcores</name>
+<value>24</value>
+</property>
+<property>
+<name>yarn.scheduler.minimum-cpu-vcores</name>
+<value>2</value>
+</property>
+<property>
+<name>yarn.scheduler.increment-allocation-vcores</name>
+<value>1</value>
+</property>
+<property>
+<name>yarn.scheduler.maximum-cpu-vcores</name>
+<value>6</value>
+</property>
+<!--节点物理内存大小-->
+<property>
+<name>yarn.nodemanager.resource.memory-mb</name>
+<value>20480</value>
+</property>
+<property>
+<name>yarn.scheduler.minimum-allocation-mb</name>
+<value>2048</value>
+</property>
+<property>
+<name>yarn.scheduler.increment-allocation-mb</name>
+<value>1024</value>
+</property>
+<property>
+<name>yarn.scheduler.maximum-allocation-mb</name>
+<value>10240</value>
+</property>
+<!-- 设置容器的内存限制时虚拟内存与物理内存之间的比率 -->
+<!-- property>
+<name>yarn.nodemanager.vmem-pmem-ratio</name>
+<value>4</value>
+</property -->
+<property>
+<name>yarn.resourcemanager.scheduler.address</name>
+<value>slave103:8030</value>
+</property>
+<property>
+<name>yarn.resourcemanager.resource-tracker.address</name>
+<value>slave103:8035</value>
+</property>
+<property>
+<name>yarn.resourcemanager.admin.address</name>
+<value>slave103:8033</value>
+</property>
+<property>
+<name>yarn.resourcemanager.webapp.address</name>
+<value>slave103:8088</value>
+</property>
+<!-- property>
+<name>yarn.log.server.url</name>
+<value>http://slave103:19888/jobhistory/logs</value>
+</property -->
+</configuration>
