@@ -65,7 +65,9 @@ C[MLP] -- output --> D[prediction]
 
 邮件预测结果输出在hdfs上，文件内容每行的de左边是真实label，右边是预测label
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/spark-mail1.png)
+<div align="center">
+	<img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/spark-mail1.png">
+</div>
 
 
 
@@ -82,8 +84,9 @@ C[MLP] -- output --> D[prediction]
 ### 4.2 源代码说明
 
 Maven项目文件结构如下
-
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/spark-mail2.png)
+<div align="center">
+	<img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/spark-mail2.png">
+</div>
 
 src/main/scala下为源代码，其中Segment.java和EnglishSegment.java用于英文分词，DataPreprocess.scala基于分词作数据预处理，MailClassifier.scala对应邮件分类模型。input下为数据集，output下为数据预处理结果MailCollection和预测结果prediction，target下为maven打好的jar包Mail.jar以及运行脚本submit.sh，pom.xml为maven配置。
 
