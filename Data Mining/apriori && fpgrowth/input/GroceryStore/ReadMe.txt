@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8b04b1da0465189eca4281b8d029e542c9c98c95c14ab0eda0ad29d737af7dbe
-size 249
+This data set contains transaction records of a grocery store in a month. Each line is a transaction, where the purchased items line in {}, separated by “,” (the space is replaced by “/”).  In total, there are 9835 transactions of 169 items.

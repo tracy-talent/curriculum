@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0b02172ff501e543ee67e27f893c73417a1c5cfd25205e7fa03c35507c0de343
-size 368
+<2>,cd,cp,ls,mv,rm,vi -> <1>	confidence:1.0
+<1>,cd,cp,ls,mv,rm,vi -> <2>	confidence:1.0
+cd,cp,ls,mv,rm,vi -> <1>,<2>	confidence:1.0
+<1>,<2>,cp,ls,mv,rm,vi -> cd	confidence:0.9856115107913669
+<2>,cp,ls,mv,rm,vi -> <1>,cd	confidence:0.9856115107913669
+<1>,cp,ls,mv,rm,vi -> <2>,cd	confidence:0.9856115107913669
+cp,ls,mv,rm,vi -> <1>,<2>,cd	confidence:0.9856115107913669

@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0bd1493b38fffedd0924decf526c97ba698380f353eb3d81aaa976f1d72d58f7
-size 233
+请各位同学套用软件学报模板进行书写，并参考排版示例进行排版。
+
+排版过程中请注意：
+
+1. 各部分字体，字号，标点(英文标点)
+2. 行间距，段前段后距离
+3. 参考文献书写格式
