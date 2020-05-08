@@ -7,10 +7,11 @@ from metrics import _1NN
 import time
 
 # 中心化数据
-def centralize(dataMat):
-    meanVals = mean(dataMat, axis=0)
-    centralizeMat = dataMat - meanVals
-    return centralizeMat
+def centralize(traindataMat, testdataMat):
+    meanVals = mean(traindataMat, axis=0)
+    train_centralizeMat = traindataMat - meanVals
+    test_centralizeMat = testdataMat - meanVals
+    return train_centralizeMat, test_centralizeMat
 
 def loadData(filename):
     content = open(filename).readlines()
@@ -42,8 +43,7 @@ def main(resfile=None):
     for fname in ['sonar', 'splice']:
         traindataMat, traintagMat = loadData(ftrain(fname))
         testdataMat, testtagMat = loadData(ftest(fname))
-        traindataMat = centralize(traindataMat)
-        testdataMat = centralize(testdataMat)
+        traindataMat, testdataMat = centralize(traindataMat, testdataMat)
         for dims in [10, 20, 30]:
             timestamp = time.time()
             projectionMat = pca(traindataMat, dims)
