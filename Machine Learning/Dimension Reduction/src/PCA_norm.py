@@ -7,11 +7,13 @@ from metrics import _1NN
 import time
 
 # 中心化,标准化数据
-def norm(dataMat):
-    meanVals = mean(dataMat, axis=0)
-    stdVals = std(dataMat, axis=0)
-    normMat = (dataMat - meanVals) / stdVals
-    return normMat
+def norm(traindataMat, testdataMat):
+    meanVals = mean(traindataMat, axis=0)
+    stdVals = std(traindataMat, axis=0)
+    train_normMat = (traindataMat - meanVals) / stdVals
+    # 测试数据不能使用自身的数据信息标准化，而要使用训练数据的信息标准化
+    test_normMat = (testdataMat - meanVals) / stdVals
+    return train_normMat, test_normMat
 
 def loadData(filename):
     content = open(filename).readlines()
@@ -43,8 +45,7 @@ def main(resfile=None):
     for fname in ['sonar', 'splice']:
         traindataMat, traintagMat = loadData(ftrain(fname))
         testdataMat, testtagMat = loadData(ftest(fname))
-        traindataMat = norm(traindataMat)
-        testdataMat = norm(testdataMat)
+        traindataMat, testdataMat = norm(traindataMat, testdataMat)
         for dims in [10, 20, 30]:
             timestamp = time.time()
             projectionMat = pca(traindataMat, dims)
