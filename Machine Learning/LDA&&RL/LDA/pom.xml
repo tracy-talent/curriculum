@@ -8,7 +8,7 @@
         <nlplang.version>1.7.7</nlplang.version>
         <lucene-analyzer.version>3.6.2</lucene-analyzer.version>
         <corenlp.version>3.9.2</corenlp.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <provide-scope>provided</provide-scope>
         <compile-scope>compile</compile-scope>
     </properties>
