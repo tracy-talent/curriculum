@@ -3,6 +3,7 @@ python main.py \
     --dataset renmin1998 \
     --compress_seq \
     --tagscheme bmoe \
+    --only_test \
     --use_lstm \
     --use_crf \
     --embedding_size 300 \

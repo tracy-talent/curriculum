@@ -1,10 +1,3 @@
-"""
- Author: liujian
- Date: 2021-04-22 11:41:28
- Last Modified by: liujian
- Last Modified time: 2021-04-22 11:41:28
-"""
-
 class Mean(object):
     """
     Computes and stores the average and current value of metrics.

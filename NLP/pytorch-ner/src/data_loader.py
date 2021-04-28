@@ -1,10 +1,3 @@
-"""
- Author: liujian
- Date: 2021-04-22 11:39:55
- Last Modified by: liujian
- Last Modified time: 2021-04-22 11:39:55
-"""
-
 import numpy as np
 import logging
 from functools import partial

@@ -1,10 +1,3 @@
-"""
- Author: liujian
- Date: 2021-04-22 11:41:15
- Last Modified by: liujian
- Last Modified time: 2021-04-22 11:41:15
-"""
-
 from typing import List, Optional
 
 import torch

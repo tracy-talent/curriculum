@@ -1,8 +1,8 @@
 """
- Author: liujian
- Date: 2021-04-22 11:41:38
- Last Modified by: liujian
- Last Modified time: 2021-04-22 11:41:38
+ Author: liujian 
+ Date: 2020-10-25 14:31:17 
+ Last Modified by: liujian 
+ Last Modified time: 2020-10-25 14:31:17 
 """
 
 from metrics import Mean, micro_p_r_f1_score
@@ -206,8 +206,7 @@ class NER_Trainer(nn.Module):
             
         self.logger.info("Best %s on val set: %f" % (self.metric, val_best_metric))
 
-
-    def eval_model(self, eval_loader):
+    def eval_model(self, eval_loader, result_file=None):
         self.eval()
         preds_kvpairs = []
         golds_kvpairs = []
@@ -292,6 +291,11 @@ class NER_Trainer(nn.Module):
                 # Log
                 if (ith + 1) % 20 == 0:
                     self.logger.info(f'Evaluation...Batches: {ith + 1} finished')
+        
+        if result_file is not None:
+            with open(result_file, 'w', encoding='utf-8') as f:
+                for pred in preds_kvpairs:
+                    f.write(f'{pred}\n')
 
         for k, v in category_result.items():
             v_golden, v_pred, v_correct = v
@@ -308,7 +312,7 @@ class NER_Trainer(nn.Module):
         return result
 
     def load_model(self, ckpt):
-        state_dict = torch.load(ckpt)
+        state_dict = torch.load(ckpt, map_location='cuda' if torch.cuda.is_available() else 'cpu')
         self.model.load_state_dict(state_dict['model'])
     
     def save_model(self, ckpt):

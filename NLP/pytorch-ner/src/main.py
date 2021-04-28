@@ -166,7 +166,7 @@ if not args.only_test:
     trainer.load_model(ckpt)
 
 # Test
-result = trainer.eval_model(trainer.test_loader)
+result = trainer.eval_model(trainer.test_loader, 'preds.txt')
 # Print the result
 logger.info('Test set results:')
 logger.info('Accuracy: {}'.format(result['acc']))
