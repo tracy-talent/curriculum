@@ -7,9 +7,7 @@ import os
 
 from keras_model_lstm_crf import BILSTM_CRF
 from keras_utils import DataLoader_LSTM
-from utils import load_vocabulary
-from utils import extract_kvpairs_in_bio
-from utils import cal_f1_score
+from keras_utils import load_vocabulary, extract_kvpairs_in_bio, cal_f1_score
 
 # device
 tf.config.set_soft_device_placement(True)
