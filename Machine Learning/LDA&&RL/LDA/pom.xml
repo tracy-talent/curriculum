@@ -7,7 +7,7 @@
         <ansj.version>5.1.6</ansj.version>
         <nlplang.version>1.7.7</nlplang.version>
         <lucene-analyzer.version>3.6.2</lucene-analyzer.version>
-        <corenlp.version>3.9.2</corenlp.version>
+        <corenlp.version>4.4.0</corenlp.version>
         <junit.version>4.12</junit.version>
         <provide-scope>provided</provide-scope>
         <compile-scope>compile</compile-scope>
