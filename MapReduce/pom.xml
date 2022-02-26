@@ -21,7 +21,7 @@
         <eclipse.coollection.version>7.1.0</eclipse.coollection.version>
         <!--NLP-->
         <nlplang.version>1.7.7</nlplang.version>
-        <corenlp.version>3.9.2</corenlp.version>
+        <corenlp.version>4.4.0</corenlp.version>
         <!--NLP-->
         <provide-scope>provided</provide-scope>
         <compile-scope>compile</compile-scope>
